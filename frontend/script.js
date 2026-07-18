@@ -1,5 +1,5 @@
 // Set this to your Render backend URL when deploying the frontend separately!
-const API_BASE_URL = 'https://website-download-.onrender.com';
+const API_BASE_URL = 'https://website-download.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Theme Toggle

@@ -12,7 +12,11 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Simple health check route instead of serving the frontend
+app.get('/', (req, res) => {
+    res.json({ status: 'Website Downloader API is running' });
+});
 
 // Ensure dynamic directories exist
 const tempDir = path.join(__dirname, 'temp');

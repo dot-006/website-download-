@@ -1,3 +1,6 @@
+// Set this to your Render backend URL when deploying the frontend separately!
+const API_BASE_URL = 'https://website-download-.onrender.com';
+
 document.addEventListener('DOMContentLoaded', () => {
     // Theme Toggle
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -90,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         progressFill.classList.add('loading');
         
         try {
-            const response = await fetch('/download', {
+            const response = await fetch(`${API_BASE_URL}/download`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -42,11 +42,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="dark-mode">
     <!-- Background Elements -->
     <div class="bg-shape shape1"></div>
     <div class="bg-shape shape2"></div>
-    
+
     <div class="app-container">
         <!-- Header -->
         <header>
@@ -64,7 +65,7 @@
             <section class="hero">
                 <h1>Archive The Web</h1>
                 <p>Download HTML pages or mirror complete static websites with a single click.</p>
-                
+
                 <div class="input-group" id="drop-zone">
                     <i class="fa-solid fa-link input-icon"></i>
                     <input type="url" id="url-input" placeholder="https://example.com" required autocomplete="off">
@@ -106,7 +107,7 @@
                     <span class="btn-text">Start Download</span>
                     <i class="fa-solid fa-download"></i>
                 </button>
-                
+
                 <div id="progress-container" class="hidden">
                     <div class="status-text" id="status-text">Preparing...</div>
                     <div class="progress-bar">
@@ -133,139 +134,197 @@
         </main>
 
         <section id="seo-content" class="seo-content">
-    <h2>The Ultimate Website Downloader Online</h2>
-    <p>Welcome to the most efficient and reliable <strong>website downloader online</strong>. Whether you are a web developer, a digital archivist, a student, or a QA engineer, our free tool allows you to easily <strong>download HTML pages</strong>, <strong>download complete webpages with CSS and JavaScript</strong>, and even <strong>mirror entire static websites</strong> directly to your local machine.</p>
-    <p>Our powerful website copier engine bridges the gap between complex command-line tools like <code>wget</code> or <code>HTTrack</code> and an intuitive, easy-to-use graphical interface. No software installation is required. Simply paste your URL, select your mode, and save the webpage offline in seconds.</p>
+            <h2>The Ultimate Website Downloader Online</h2>
+            <p>Welcome to the most efficient and reliable <strong>website downloader online</strong>. Whether you are a
+                web developer, a digital archivist, a student, or a QA engineer, our free tool allows you to easily
+                <strong>download HTML pages</strong>, <strong>download complete webpages with CSS and
+                    JavaScript</strong>, and even <strong>mirror entire static websites</strong> directly to your local
+                machine.</p>
+            <p>Our powerful website copier engine bridges the gap between complex command-line tools like
+                <code>wget</code> or <code>HTTrack</code> and an intuitive, easy-to-use graphical interface. No software
+                installation is required. Simply paste your URL, select your mode, and save the webpage offline in
+                seconds.</p>
 
-    <h3>Why You Need a Website Archiver</h3>
-    <p>In today’s fast-paced digital ecosystem, having offline access to web content is crucial. Websites go offline, domains expire, and valuable research data can disappear overnight. Using an <strong>offline website downloader</strong> acts as an insurance policy for your digital assets. It serves multiple purposes, from creating a robust <strong>website backup tool</strong> to enabling offline presentations and archiving competitor designs.</p>
-    
-    <h2>Features of Our Free Website Copier</h2>
-    <p>Our downloader is packed with features designed to handle everything from a single HTML file to complex static websites. Here’s why professionals choose us:</p>
-    <ul>
-        <li><strong>Download HTML Only:</strong> Quickly extract the raw HTML structure of any page without downloading heavy assets. Perfect for SEO professionals analyzing DOM structures.</li>
-        <li><strong>Download Webpage with CSS and JS:</strong> Our "Single Page" mode fetches all linked stylesheets, scripts, and images, automatically rewriting the internal links so the page looks and functions perfectly when viewed offline.</li>
-        <li><strong>Mirror Static Websites:</strong> Recursively crawl and download an entire static website. Our <strong>website cloning tool</strong> maps the directory structure locally, making it an excellent <strong>website archive</strong> solution.</li>
-        <li><strong>Zero Installation:</strong> Operate entirely from your browser. We run the intensive background processes, delivering a clean ZIP file to your device.</li>
-        <li><strong>Smart Link Rewriting:</strong> Unlike basic browser "Save Page As" functions, our tool intelligently converts absolute URLs to relative local paths.</li>
-    </ul>
+            <h3>Why You Need a Website Archiver</h3>
+            <p>In today’s fast-paced digital ecosystem, having offline access to web content is crucial. Websites go
+                offline, domains expire, and valuable research data can disappear overnight. Using an <strong>offline
+                    website downloader</strong> acts as an insurance policy for your digital assets. It serves multiple
+                purposes, from creating a robust <strong>website backup tool</strong> to enabling offline presentations
+                and archiving competitor designs.</p>
 
-    <h3>Supported Download Modes</h3>
-    <p>We offer three distinct modes tailored to different use cases. Understanding which to use will optimize your download times and storage requirements.</p>
-    
-    <h4>1. HTML Only Mode</h4>
-    <p>This is the fastest option available. It initiates a rapid fetch of the target URL, ignoring all external resources like images, CSS, or JavaScript files. Use this mode when you solely need to <strong>download HTML online</strong> for text extraction, metadata auditing, or quick code inspection.</p>
+            <h2>Features of Our Free Website Copier</h2>
+            <p>Our downloader is packed with features designed to handle everything from a single HTML file to complex
+                static websites. Here’s why professionals choose us:</p>
+            <ul>
+                <li><strong>Download HTML Only:</strong> Quickly extract the raw HTML structure of any page without
+                    downloading heavy assets. Perfect for SEO professionals analyzing DOM structures.</li>
+                <li><strong>Download Webpage with CSS and JS:</strong> Our "Single Page" mode fetches all linked
+                    stylesheets, scripts, and images, automatically rewriting the internal links so the page looks and
+                    functions perfectly when viewed offline.</li>
+                <li><strong>Mirror Static Websites:</strong> Recursively crawl and download an entire static website.
+                    Our <strong>website cloning tool</strong> maps the directory structure locally, making it an
+                    excellent <strong>website archive</strong> solution.</li>
+                <li><strong>Zero Installation:</strong> Operate entirely from your browser. We run the intensive
+                    background processes, delivering a clean ZIP file to your device.</li>
+                <li><strong>Smart Link Rewriting:</strong> Unlike basic browser "Save Page As" functions, our tool
+                    intelligently converts absolute URLs to relative local paths.</li>
+            </ul>
 
-    <h4>2. Single Page Mode</h4>
-    <p>When you need to <strong>download webpage resources</strong> fully, this mode is ideal. It grabs the HTML and recursively fetches every asset required to render the page visually. This includes stylesheets, web fonts, JavaScript bundles, and high-resolution images. It’s perfect for web designers wanting to inspect a competitor's layout offline.</p>
+            <h3>Supported Download Modes</h3>
+            <p>We offer three distinct modes tailored to different use cases. Understanding which to use will optimize
+                your download times and storage requirements.</p>
 
-    <h4>3. Entire Website Mode</h4>
-    <p>This is a complete <strong>static website mirror</strong>. The tool starts at your provided URL and follows every internal link belonging to the same domain, downloading all interconnected pages and assets. It preserves the site's folder hierarchy, allowing you to browse the site offline exactly as it appears online.</p>
+            <h4>1. HTML Only Mode</h4>
+            <p>This is the fastest option available. It initiates a rapid fetch of the target URL, ignoring all external
+                resources like images, CSS, or JavaScript files. Use this mode when you solely need to <strong>download
+                    HTML online</strong> for text extraction, metadata auditing, or quick code inspection.</p>
 
-    <h2>Common Use Cases: Who is this Tool For?</h2>
-    <p>Our platform is trusted by a wide variety of professionals across the tech and digital marketing sectors.</p>
-    <ul>
-        <li><strong>Web Developers & Designers:</strong> Download inspiring landing pages to analyze CSS grid structures, animation logic, and responsive breakpoints offline.</li>
-        <li><strong>SEO Professionals:</strong> Download HTML to inspect semantic structures, heading hierarchies, schema markup, and keyword density without triggering analytics trackers.</li>
-        <li><strong>QA Engineers:</strong> Capture a snapshot of a staging environment or production page to document bugs or UI inconsistencies.</li>
-        <li><strong>Students & Researchers:</strong> Save essential articles, research papers, and educational materials for offline study, ensuring access even without an internet connection.</li>
-        <li><strong>Digital Archivists:</strong> Preserve legacy websites before they are shut down, contributing to historical web archives.</li>
-    </ul>
+            <h4>2. Single Page Mode</h4>
+            <p>When you need to <strong>download webpage resources</strong> fully, this mode is ideal. It grabs the HTML
+                and recursively fetches every asset required to render the page visually. This includes stylesheets, web
+                fonts, JavaScript bundles, and high-resolution images. It’s perfect for web designers wanting to inspect
+                a competitor's layout offline.</p>
 
-    <h2>Website Downloader vs Browser "Save Page As" vs HTTrack</h2>
-    <p>You might wonder why you should use a dedicated <strong>website downloader online</strong> rather than built-in browser features or legacy desktop software. Here is a breakdown:</p>
-    <table class="comparison-table">
-        <thead>
-            <tr>
-                <th>Feature</th>
-                <th>Our Downloader</th>
-                <th>Browser "Save Page"</th>
-                <th>wget / HTTrack</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Ease of Use</strong></td>
-                <td>High (One-click UI)</td>
-                <td>High</td>
-                <td>Low (Command-line / Dated UI)</td>
-            </tr>
-            <tr>
-                <td><strong>Link Rewriting</strong></td>
-                <td>Yes (Intelligent relative paths)</td>
-                <td>Poor (Often breaks assets)</td>
-                <td>Yes</td>
-            </tr>
-            <tr>
-                <td><strong>Recursive Mirroring</strong></td>
-                <td>Yes (Entire site mode)</td>
-                <td>No (Single page only)</td>
-                <td>Yes</td>
-            </tr>
-            <tr>
-                <td><strong>Installation Required</strong></td>
-                <td>No (Fully Online)</td>
-                <td>No</td>
-                <td>Yes (Local installation)</td>
-            </tr>
-            <tr>
-                <td><strong>Output Format</strong></td>
-                <td>Clean ZIP archive</td>
-                <td>Messy folder + HTML file</td>
-                <td>Local directory tree</td>
-            </tr>
-        </tbody>
-    </table>
+            <h4>3. Entire Website Mode</h4>
+            <p>This is a complete <strong>static website mirror</strong>. The tool starts at your provided URL and
+                follows every internal link belonging to the same domain, downloading all interconnected pages and
+                assets. It preserves the site's folder hierarchy, allowing you to browse the site offline exactly as it
+                appears online.</p>
 
-    <h2>Best Practices for Archiving Websites</h2>
-    <p>To get the best results when you <strong>download complete websites</strong>, follow these expert best practices:</p>
-    <ul>
-        <li><strong>Check robots.txt:</strong> Respect the website owner's crawling guidelines. If a directory is disallowed, it is best practice not to aggressively mirror it.</li>
-        <li><strong>Start at the Root:</strong> When mirroring an entire site, always start at the homepage (e.g., <code>https://example.com/</code>) to ensure the crawler discovers all interconnected internal links.</li>
-        <li><strong>Be Mindful of Dynamic Content:</strong> Modern Single Page Applications (SPAs) built with React or Angular heavily rely on client-side rendering. While our tool downloads the compiled JS, the offline functionality may be limited if the app requires backend API connections.</li>
-    </ul>
+            <h2>Common Use Cases: Who is this Tool For?</h2>
+            <p>Our platform is trusted by a wide variety of professionals across the tech and digital marketing sectors.
+            </p>
+            <ul>
+                <li><strong>Web Developers & Designers:</strong> Download inspiring landing pages to analyze CSS grid
+                    structures, animation logic, and responsive breakpoints offline.</li>
+                <li><strong>SEO Professionals:</strong> Download HTML to inspect semantic structures, heading
+                    hierarchies, schema markup, and keyword density without triggering analytics trackers.</li>
+                <li><strong>QA Engineers:</strong> Capture a snapshot of a staging environment or production page to
+                    document bugs or UI inconsistencies.</li>
+                <li><strong>Students & Researchers:</strong> Save essential articles, research papers, and educational
+                    materials for offline study, ensuring access even without an internet connection.</li>
+                <li><strong>Digital Archivists:</strong> Preserve legacy websites before they are shut down,
+                    contributing to historical web archives.</li>
+            </ul>
 
-    <h2>Limitations & Technical Constraints</h2>
-    <p>While our tool is highly capable, transparency regarding its limitations ensures a better user experience. Please be aware of the following:</p>
-    <ul>
-        <li><strong>Anti-Bot Protection (Cloudflare):</strong> Websites utilizing aggressive DDoS protection or CAPTCHAs (like Cloudflare's "Under Attack" mode) will block automated downloaders, returning a 403 Forbidden error.</li>
-        <li><strong>Login-Protected Pages:</strong> The downloader operates anonymously and does not share your browser's session cookies. It cannot download pages behind a login wall, paywall, or intranet authentication.</li>
-        <li><strong>Copyright & Intellectual Property:</strong> This tool must only be used to download websites you own or have explicit permission to archive. Do not use this service to clone copyrighted material or duplicate content for malicious purposes.</li>
-    </ul>
+            <h2>Website Downloader vs Browser "Save Page As" vs HTTrack</h2>
+            <p>You might wonder why you should use a dedicated <strong>website downloader online</strong> rather than
+                built-in browser features or legacy desktop software. Here is a breakdown:</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Our Downloader</th>
+                        <th>Browser "Save Page"</th>
+                        <th>wget / HTTrack</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ease of Use</strong></td>
+                        <td>High (One-click UI)</td>
+                        <td>High</td>
+                        <td>Low (Command-line / Dated UI)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Link Rewriting</strong></td>
+                        <td>Yes (Intelligent relative paths)</td>
+                        <td>Poor (Often breaks assets)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recursive Mirroring</strong></td>
+                        <td>Yes (Entire site mode)</td>
+                        <td>No (Single page only)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Installation Required</strong></td>
+                        <td>No (Fully Online)</td>
+                        <td>No</td>
+                        <td>Yes (Local installation)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Output Format</strong></td>
+                        <td>Clean ZIP archive</td>
+                        <td>Messy folder + HTML file</td>
+                        <td>Local directory tree</td>
+                    </tr>
+                </tbody>
+            </table>
 
-    <h2>Frequently Asked Questions (FAQ)</h2>
-    
-    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 itemprop="name">How do I download a website to view offline?</h3>
-        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-            <p itemprop="text">Simply paste the URL of the website into our input field above, select the "Entire Website" mode, and click "Start Download". We will compress the site into a ZIP file. Once downloaded, extract the ZIP and open the `index.html` file in your browser to view it offline.</p>
-        </div>
-    </div>
+            <h2>Best Practices for Archiving Websites</h2>
+            <p>To get the best results when you <strong>download complete websites</strong>, follow these expert best
+                practices:</p>
+            <ul>
+                <li><strong>Check robots.txt:</strong> Respect the website owner's crawling guidelines. If a directory
+                    is disallowed, it is best practice not to aggressively mirror it.</li>
+                <li><strong>Start at the Root:</strong> When mirroring an entire site, always start at the homepage
+                    (e.g., <code>https://example.com/</code>) to ensure the crawler discovers all interconnected
+                    internal links.</li>
+                <li><strong>Be Mindful of Dynamic Content:</strong> Modern Single Page Applications (SPAs) built with
+                    React or Angular heavily rely on client-side rendering. While our tool downloads the compiled JS,
+                    the offline functionality may be limited if the app requires backend API connections.</li>
+            </ul>
 
-    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 itemprop="name">Can I download HTML, CSS, and JS together?</h3>
-        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-            <p itemprop="text">Yes. By using the "Single Page" mode, our tool automatically fetches the HTML document along with all referenced CSS stylesheets and JavaScript files, rewriting the links to ensure they load properly from your local drive.</p>
-        </div>
-    </div>
+            <h2>Limitations & Technical Constraints</h2>
+            <p>While our tool is highly capable, transparency regarding its limitations ensures a better user
+                experience. Please be aware of the following:</p>
+            <ul>
+                <li><strong>Anti-Bot Protection (Cloudflare):</strong> Websites utilizing aggressive DDoS protection or
+                    CAPTCHAs (like Cloudflare's "Under Attack" mode) will block automated downloaders, returning a 403
+                    Forbidden error.</li>
+                <li><strong>Login-Protected Pages:</strong> The downloader operates anonymously and does not share your
+                    browser's session cookies. It cannot download pages behind a login wall, paywall, or intranet
+                    authentication.</li>
+                <li><strong>Copyright & Intellectual Property:</strong> This tool must only be used to download websites
+                    you own or have explicit permission to archive. Do not use this service to clone copyrighted
+                    material or duplicate content for malicious purposes.</li>
+            </ul>
 
-    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 itemprop="name">Is this website downloader free?</h3>
-        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-            <p itemprop="text">Absolutely. Our core downloading features, including HTML extraction and static site mirroring, are 100% free to use directly from your browser.</p>
-        </div>
-    </div>
+            <h2>Frequently Asked Questions (FAQ)</h2>
 
-    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 itemprop="name">Why did my download fail with a 403 error?</h3>
-        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-            <p itemprop="text">A 403 error typically indicates that the target website is utilizing anti-bot protection mechanisms (such as Cloudflare). These security layers actively block automated scripts and downloaders from accessing their content.</p>
-        </div>
-    </div>
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 itemprop="name">How do I download a website to view offline?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">Simply paste the URL of the website into our input field above, select the
+                        "Entire Website" mode, and click "Start Download". We will compress the site into a ZIP file.
+                        Once downloaded, extract the ZIP and open the `index.html` file in your browser to view it
+                        offline.</p>
+                </div>
+            </div>
 
-    <h2>Ready to Archive the Web?</h2>
-    <p>Stop relying on messy browser saves or complicated command-line utilities. Experience the fastest, cleanest way to <strong>save websites offline</strong>. Scroll up to the top of the page, paste your URL, and let our tool handle the heavy lifting for you.</p>
-</section>
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 itemprop="name">Can I download HTML, CSS, and JS together?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">Yes. By using the "Single Page" mode, our tool automatically fetches the HTML
+                        document along with all referenced CSS stylesheets and JavaScript files, rewriting the links to
+                        ensure they load properly from your local drive.</p>
+                </div>
+            </div>
+
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 itemprop="name">Is this website downloader free?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">Absolutely. Our core downloading features, including HTML extraction and static
+                        site mirroring, are 100% free to use directly from your browser.</p>
+                </div>
+            </div>
+
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 itemprop="name">Why did my download fail with a 403 error?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">A 403 error typically indicates that the target website is utilizing anti-bot
+                        protection mechanisms (such as Cloudflare). These security layers actively block automated
+                        scripts and downloaders from accessing their content.</p>
+                </div>
+            </div>
+
+            <h2>Ready to Archive the Web?</h2>
+            <p>Stop relying on messy browser saves or complicated command-line utilities. Experience the fastest,
+                cleanest way to <strong>save websites offline</strong>. Scroll up to the top of the page, paste your
+                URL, and let our tool handle the heavy lifting for you.</p>
+        </section>
 
 
         <!-- Footer -->
@@ -276,11 +335,13 @@
                 <a href="#">Terms of Service</a>
             </div>
             <p class="disclaimer">
-                <strong>Disclaimer:</strong> This tool is intended for downloading websites that you own or have permission to archive. Users are responsible for complying with applicable laws and website terms.
+                <strong>Disclaimer:</strong> This tool is intended for downloading websites that you own or have
+                permission to archive. Users are responsible for complying with applicable laws and website terms.
             </p>
         </footer>
     </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>

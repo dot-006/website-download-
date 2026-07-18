@@ -14,9 +14,6 @@ app.use(cors({
     exposedHeaders: ['Content-Disposition']
 }));
 
-// Explicitly handle preflight OPTIONS requests
-app.options('*', cors());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

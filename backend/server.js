@@ -6,22 +6,17 @@ const downloadRoutes = require('./routes/download');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-const allowedOrigins = [
-    'https://gethtml.wuaze.com',
-    'http://gethtml.wuaze.com',
-    'http://localhost:3000',
-    'http://localhost:8080',
-];
+// Middleware - open CORS for public tool
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (e.g. curl, Render health checks)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error(`CORS: Origin ${origin} not allowed`));
-    },
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Disposition']
 }));
+
+// Explicitly handle preflight OPTIONS requests
+app.options('*', cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

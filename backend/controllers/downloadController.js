@@ -10,15 +10,16 @@ async function handleDownload(req, res) {
         return res.status(400).json({ error: 'Invalid URL provided. Only http and https are supported.' });
     }
 
-    const validModes = ['html', 'page', 'website'];
+    const validModes = ['html', 'page', 'website', 'inlined'];
     if (!validModes.includes(mode)) {
-        return res.status(400).json({ error: 'Invalid mode. Must be one of html, page, or website.' });
+        return res.status(400).json({ error: 'Invalid mode. Must be one of html, page, website, or inlined.' });
     }
 
     try {
         // Send a custom header or just rely on the zip stream
         // Setting content disposition for a download
-        const filename = `download-${Date.now()}.zip`;
+        const ext = mode === 'inlined' ? 'html' : 'zip';
+        const filename = `download-${Date.now()}.${ext}`;
         res.attachment(filename);
         
         await downloadService.processDownload(url, mode, res);

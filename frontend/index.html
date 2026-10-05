@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="https://quge5.com/88/tag.min.js" data-zone="286014" async data-cfasync="false"></script>
+    <meta name="monetag" content="712e01fa716e5945d4366bb63d3dcb54">
+    <meta name="google-site-verification" content="GAFtxEepvYnQvF145-T8hoBJyJY-FzdSeld5MOmTUk0" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
     <title>Website Downloader Online | Download HTML &amp; Mirror Sites</title>
-    <meta name="description" content="Free online website downloader tool. Download HTML pages, mirror complete static websites, and save web pages for offline viewing in a single click.">
+    <meta name="description"
+        content="Free online website downloader tool. Download HTML pages, mirror complete static websites, and save web pages for offline viewing in a single click.">
+    <meta name="keywords" content="download website, website downloader, website download, html downloader, download html page, webpage download, webpage downloader, website link download, website download html, website download link">
+
 
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://gethtml.wuaze.com/">
-    
+    <link rel="canonical" href="https://html-get.netlify.app/">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gethtml.wuaze.com/">
+    <meta property="og:url" content="https://html-get.netlify.app/">
     <meta property="og:title" content="Website Downloader Online | Download HTML & Mirror Sites">
-    <meta property="og:description" content="Free online website downloader tool. Download HTML pages, mirror complete static websites, and save web pages for offline viewing in a single click.">
-    
+    <meta property="og:description"
+        content="Free online website downloader tool. Download HTML pages, mirror complete static websites, and save web pages for offline viewing in a single click.">
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://gethtml.wuaze.com/">
+    <meta property="twitter:url" content="https://html-get.netlify.app/">
     <meta property="twitter:title" content="Website Downloader Online | Download HTML & Mirror Sites">
-    <meta property="twitter:description" content="Free online website downloader tool. Download HTML pages, mirror complete static websites, and save web pages for offline viewing in a single click.">
+    <meta property="twitter:description"
+        content="Free online website downloader tool. Download HTML pages, mirror complete static websites, and save web pages for offline viewing in a single click.">
 
     <script type="application/ld+json">
     {
@@ -40,7 +51,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 
 <body class="dark-mode">
@@ -52,9 +63,16 @@
         <!-- Header -->
         <header>
             <div class="logo">
-                <i class="fa-solid fa-cloud-arrow-down"></i>
-                <span>Website Downloader</span>
+                <a href="/" style="display:flex;align-items:center;gap:0.75rem;color:inherit;text-decoration:none;">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                    <span>Website Downloader</span>
+                </a>
             </div>
+            <nav class="header-nav">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/blog/" class="nav-link">Blog</a>
+                <a href="/about" class="nav-link">About</a>
+            </nav>
             <button id="theme-toggle" class="icon-btn" aria-label="Toggle light/dark mode">
                 <i class="fa-solid fa-sun"></i>
             </button>
@@ -77,8 +95,16 @@
             <section class="modes-section">
                 <h2>Select Mode</h2>
                 <div class="modes-grid">
+                    <!-- Single File Inlined Card -->
+                    <div class="mode-card active" data-mode="inlined">
+                        <div class="mode-icon"><i class="fa-solid fa-file-image"></i></div>
+                        <h3>Single File</h3>
+                        <p>Embeds CSS, JS, and images directly into one HTML file.</p>
+                        <span class="badge" style="background: var(--color-success); color: white;">Recommended</span>
+                    </div>
+
                     <!-- HTML Only Card -->
-                    <div class="mode-card active" data-mode="html">
+                    <div class="mode-card" data-mode="html">
                         <div class="mode-icon"><i class="fa-brands fa-html5"></i></div>
                         <h3>HTML Only</h3>
                         <p>Downloads just the bare HTML file.</p>
@@ -103,10 +129,30 @@
             </section>
 
             <section class="action-section">
+                <!-- Backend Status Indicator -->
+                <div id="backend-status-bar" class="backend-status sleeping" title="Checking backend status...">
+                    <span class="status-dot"></span>
+                    <span id="backend-status-label">Checking server...</span>
+                </div>
+
                 <button id="download-btn" class="primary-btn">
                     <span class="btn-text">Start Download</span>
                     <i class="fa-solid fa-download"></i>
                 </button>
+
+                <!-- Wakeup Panel (shown during cold start) -->
+                <div id="wakeup-container" class="hidden">
+                    <div class="wakeup-icon"><i class="fa-solid fa-coffee"></i></div>
+                    <div class="wakeup-text">
+                        <strong>Waking up the server...</strong>
+                        <span>Render's free tier sleeps after 15 min of inactivity.</span>
+                        <span>This usually takes <em>30–60 seconds</em>. Please wait.</span>
+                    </div>
+                    <div class="wakeup-timer" id="wakeup-timer">0s</div>
+                    <div class="progress-bar wakeup-bar">
+                        <div class="progress-fill loading" id="wakeup-fill"></div>
+                    </div>
+                </div>
 
                 <div id="progress-container" class="hidden">
                     <div class="status-text" id="status-text">Preparing...</div>
@@ -139,11 +185,13 @@
                 web developer, a digital archivist, a student, or a QA engineer, our free tool allows you to easily
                 <strong>download HTML pages</strong>, <strong>download complete webpages with CSS and
                     JavaScript</strong>, and even <strong>mirror entire static websites</strong> directly to your local
-                machine.</p>
+                machine.
+            </p>
             <p>Our powerful website copier engine bridges the gap between complex command-line tools like
                 <code>wget</code> or <code>HTTrack</code> and an intuitive, easy-to-use graphical interface. No software
                 installation is required. Simply paste your URL, select your mode, and save the webpage offline in
-                seconds.</p>
+                seconds.
+            </p>
 
             <h3>Why You Need a Website Archiver</h3>
             <p>In today’s fast-paced digital ecosystem, having offline access to web content is crucial. Websites go
@@ -210,48 +258,50 @@
             <h2>Website Downloader vs Browser "Save Page As" vs HTTrack</h2>
             <p>You might wonder why you should use a dedicated <strong>website downloader online</strong> rather than
                 built-in browser features or legacy desktop software. Here is a breakdown:</p>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Our Downloader</th>
-                        <th>Browser "Save Page"</th>
-                        <th>wget / HTTrack</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Ease of Use</strong></td>
-                        <td>High (One-click UI)</td>
-                        <td>High</td>
-                        <td>Low (Command-line / Dated UI)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Link Rewriting</strong></td>
-                        <td>Yes (Intelligent relative paths)</td>
-                        <td>Poor (Often breaks assets)</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Recursive Mirroring</strong></td>
-                        <td>Yes (Entire site mode)</td>
-                        <td>No (Single page only)</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Installation Required</strong></td>
-                        <td>No (Fully Online)</td>
-                        <td>No</td>
-                        <td>Yes (Local installation)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Output Format</strong></td>
-                        <td>Clean ZIP archive</td>
-                        <td>Messy folder + HTML file</td>
-                        <td>Local directory tree</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Our Downloader</th>
+                            <th>Browser "Save Page"</th>
+                            <th>wget / HTTrack</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ease of Use</strong></td>
+                            <td>High (One-click UI)</td>
+                            <td>High</td>
+                            <td>Low (Command-line / Dated UI)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Link Rewriting</strong></td>
+                            <td>Yes (Intelligent relative paths)</td>
+                            <td>Poor (Often breaks assets)</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Recursive Mirroring</strong></td>
+                            <td>Yes (Entire site mode)</td>
+                            <td>No (Single page only)</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Installation Required</strong></td>
+                            <td>No (Fully Online)</td>
+                            <td>No</td>
+                            <td>Yes (Local installation)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Output Format</strong></td>
+                            <td>Clean ZIP archive</td>
+                            <td>Messy folder + HTML file</td>
+                            <td>Local directory tree</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <h2>Best Practices for Archiving Websites</h2>
             <p>To get the best results when you <strong>download complete websites</strong>, follow these expert best
@@ -330,9 +380,11 @@
         <!-- Footer -->
         <footer>
             <div class="footer-links">
-                <a href="#">About</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
+                <a href="/">Home</a>
+                <a href="/blog/">Blog</a>
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
             </div>
             <p class="disclaimer">
                 <strong>Disclaimer:</strong> This tool is intended for downloading websites that you own or have
@@ -341,7 +393,7 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
 </body>
 
 </html>

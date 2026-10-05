@@ -1,12 +1,79 @@
-// Set this to your Render backend URL when deploying the frontend separately!
-const API_BASE_URL = 'https://website-download.onrender.com';
+// Set this to your production backend URL!
+let API_BASE_URL = 'http://localhost:3000';
 
+// Automatically switch to production URL if not running locally
+if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    // ⚠️ REPLACE THIS STRING with your deployed backend URL (e.g., Render, Railway, Heroku)
+    API_BASE_URL = 'https://website-download.onrender.com'; 
+}
+
+// ─── Backend Status ──────────────────────────────────────────────────────────
+let backendStatus = 'checking'; // 'checking' | 'sleeping' | 'awake'
+let wakeupInterval = null;
+let wakeupSeconds = 0;
+
+const statusBar       = document.getElementById('backend-status-bar');
+const statusLabel     = document.getElementById('backend-status-label');
+const wakeupContainer = document.getElementById('wakeup-container');
+const wakeupTimerEl   = document.getElementById('wakeup-timer');
+
+function setBackendStatus(state, label) {
+    backendStatus = state;
+    statusBar.className = `backend-status ${state}`;
+    if (label) {
+        statusLabel.textContent = label;
+    } else if (state === 'awake') {
+        statusLabel.textContent = 'Server Ready';
+    } else if (state === 'sleeping') {
+        statusLabel.textContent = 'Server Sleeping 💤';
+    } else {
+        statusLabel.textContent = 'Checking server...';
+    }
+}
+
+async function pingBackend() {
+    setBackendStatus('checking');
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 6000);
+    const t0 = Date.now();
+    try {
+        await fetch(`${API_BASE_URL}/`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        const elapsed = Date.now() - t0;
+        // Fast response → already awake; slow/timed-out → was sleeping
+        setBackendStatus(elapsed < 4000 ? 'awake' : 'sleeping');
+    } catch {
+        clearTimeout(timeoutId);
+        setBackendStatus('sleeping');
+    }
+}
+
+function startWakeupTimer() {
+    wakeupSeconds = 0;
+    wakeupTimerEl.textContent = '0s';
+    wakeupContainer.classList.remove('hidden');
+    wakeupInterval = setInterval(() => {
+        wakeupSeconds++;
+        wakeupTimerEl.textContent = `${wakeupSeconds}s`;
+    }, 1000);
+}
+
+function stopWakeupTimer() {
+    clearInterval(wakeupInterval);
+    wakeupInterval = null;
+    wakeupContainer.classList.add('hidden');
+}
+
+// Ping on load — non-blocking, updates the indicator quietly in the background
+pingBackend();
+
+// ─── Main App ─────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    // Theme Toggle
+
+    // ── Theme Toggle ──────────────────────────────────────────────────────────
     const themeToggleBtn = document.getElementById('theme-toggle');
     const body = document.body;
 
-    // Load theme from localStorage
     if (localStorage.getItem('theme') === 'light') {
         body.classList.remove('dark-mode');
         body.classList.add('light-mode');
@@ -27,9 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mode Selection
+    // ── Mode Selection ────────────────────────────────────────────────────────
     const modeCards = document.querySelectorAll('.mode-card');
-    let currentMode = 'html';
+    let currentMode = 'inlined';
 
     modeCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -37,8 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.add('active');
             currentMode = card.getAttribute('data-mode');
         });
-        
-        // Keyboard accessibility for cards
+
         card.setAttribute('tabindex', '0');
         card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -48,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Paste Button
+    // ── Paste Button ──────────────────────────────────────────────────────────
     const pasteBtn = document.getElementById('paste-btn');
     const urlInput = document.getElementById('url-input');
 
@@ -61,19 +127,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Download Button
-    const downloadBtn = document.getElementById('download-btn');
-    const urlError = document.getElementById('url-error');
+    // ── Download Button ───────────────────────────────────────────────────────
+    const downloadBtn       = document.getElementById('download-btn');
+    const urlError          = document.getElementById('url-error');
     const progressContainer = document.getElementById('progress-container');
-    const statusText = document.getElementById('status-text');
-    const progressFill = document.getElementById('progress-fill');
+    const statusText        = document.getElementById('status-text');
+    const progressFill      = document.getElementById('progress-fill');
 
     function isValidUrl(string) {
         try {
             const url = new URL(string);
-            return url.protocol === "http:" || url.protocol === "https:";
+            return url.protocol === 'http:' || url.protocol === 'https:';
         } catch (_) {
-            return false;  
+            return false;
         }
     }
 
@@ -86,68 +152,87 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         urlError.style.display = 'none';
 
-        // Start download process UI
         downloadBtn.disabled = true;
-        progressContainer.classList.remove('hidden');
-        statusText.innerText = 'Downloading and Compressing...';
-        progressFill.classList.add('loading');
-        
+
+        // Decide UI based on whether backend was sleeping
+        const wasSleeping = backendStatus === 'sleeping';
+        if (wasSleeping) {
+            // Show the wakeup panel with live timer
+            startWakeupTimer();
+            setBackendStatus('checking', 'Waking up... ☕');
+        } else {
+            // Server already awake — go straight to download progress
+            progressContainer.classList.remove('hidden');
+            statusText.innerText = 'Downloading and Compressing...';
+            statusText.style.color = '';
+            progressFill.classList.add('loading');
+        }
+
         try {
             const response = await fetch(`${API_BASE_URL}/download`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url, mode: currentMode })
             });
+
+            // Backend responded — transition from wakeup to download progress
+            if (wasSleeping) {
+                stopWakeupTimer();
+                setBackendStatus('awake');
+                progressContainer.classList.remove('hidden');
+                statusText.innerText = 'Downloading and Compressing...';
+                statusText.style.color = '';
+                progressFill.classList.add('loading');
+            }
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
                 throw new Error(errorData.error || `Server responded with ${response.status}`);
             }
 
-            // Extract filename from headers if possible
+            // Extract filename from Content-Disposition header
             let filename = `download-${Date.now()}.zip`;
             const disposition = response.headers.get('content-disposition');
             if (disposition && disposition.indexOf('attachment') !== -1) {
                 const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                 const matches = filenameRegex.exec(disposition);
-                if (matches != null && matches[1]) { 
+                if (matches != null && matches[1]) {
                     filename = matches[1].replace(/['"]/g, '');
                 }
-            } else if (currentMode === 'html') {
-                // If it's just HTML, maybe it's returning HTML? 
-                // But our backend always returns a zip according to the spec, to keep things consistent.
-                filename = `download-${Date.now()}.zip`;
             }
 
             const blob = await response.blob();
             const downloadUrl = window.URL.createObjectURL(blob);
-            
+
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = downloadUrl;
             a.download = filename;
             document.body.appendChild(a);
             a.click();
-            
+
             setTimeout(() => {
                 a.remove();
                 window.URL.revokeObjectURL(downloadUrl);
-            }, 15000); // Wait 15 seconds before cleanup
+            }, 15000);
 
-            // Add to history
             addToHistory(url, currentMode);
             statusText.innerText = 'Ready!';
+            statusText.style.color = '';
+            setBackendStatus('awake');
+
         } catch (error) {
             console.error('Download error:', error);
+            stopWakeupTimer();
+            progressContainer.classList.remove('hidden');
             statusText.innerText = `Error: ${error.message}`;
             statusText.style.color = 'var(--color-error)';
+            setBackendStatus('sleeping');
         } finally {
             downloadBtn.disabled = false;
             progressFill.classList.remove('loading');
             progressFill.style.width = '100%';
-            
+
             setTimeout(() => {
                 if (statusText.innerText === 'Ready!') {
                     progressContainer.classList.add('hidden');
@@ -157,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Drag and Drop URL Support
+    // ── Drag and Drop ─────────────────────────────────────────────────────────
     const dropZone = document.getElementById('drop-zone');
 
     dropZone.addEventListener('dragover', (e) => {
@@ -174,23 +259,18 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         dropZone.style.borderColor = 'var(--border-color)';
         const text = e.dataTransfer.getData('text');
-        if (text) {
-            urlInput.value = text;
-        }
+        if (text) urlInput.value = text;
     });
 
-    // Keyboard Shortcuts
+    // ── Keyboard Shortcut: Ctrl/Cmd + Enter ───────────────────────────────────
     document.addEventListener('keydown', (e) => {
-        // Ctrl/Cmd + Enter to trigger download
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-            if (!downloadBtn.disabled) {
-                downloadBtn.click();
-            }
+            if (!downloadBtn.disabled) downloadBtn.click();
         }
     });
 
-    // History Logic
-    const historyList = document.getElementById('history-list');
+    // ── History ───────────────────────────────────────────────────────────────
+    const historyList     = document.getElementById('history-list');
     const clearHistoryBtn = document.getElementById('clear-history-btn');
     let sessionHistory = [];
 
@@ -201,10 +281,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        sessionHistory.forEach((item, index) => {
+        sessionHistory.forEach((item) => {
             const li = document.createElement('li');
             li.className = 'history-item';
-            
+
             const urlSpan = document.createElement('span');
             urlSpan.className = 'history-url';
             urlSpan.textContent = item.url;
@@ -212,10 +292,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const metaDiv = document.createElement('div');
             metaDiv.className = 'history-meta';
-            
+
             const modeSpan = document.createElement('span');
             modeSpan.textContent = item.mode.toUpperCase();
-            
+
             const copyBtn = document.createElement('button');
             copyBtn.className = 'copy-btn';
             copyBtn.title = 'Copy Original URL';
@@ -230,7 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             metaDiv.appendChild(modeSpan);
             metaDiv.appendChild(copyBtn);
-
             li.appendChild(urlSpan);
             li.appendChild(metaDiv);
             historyList.appendChild(li);
@@ -239,10 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addToHistory(url, mode) {
         sessionHistory.unshift({ url, mode, timestamp: Date.now() });
-        // Keep only last 5 items
-        if (sessionHistory.length > 5) {
-            sessionHistory.pop();
-        }
+        if (sessionHistory.length > 5) sessionHistory.pop();
         renderHistory();
     }
 

@@ -89,9 +89,21 @@ async function processDownload(targetUrl, mode, res) {
             await downloadSinglePage(targetUrl, tempDir);
         } else if (mode === 'website') {
             await downloadWebsite(targetUrl, tempDir);
+        } else if (mode === 'inlined') {
+            await downloadSingleFileInlined(targetUrl, tempDir);
         }
 
-        await streamZip(tempDir, res);
+        if (mode === 'inlined') {
+            const htmlPath = path.join(tempDir, 'index.html');
+            const readStream = fs.createReadStream(htmlPath);
+            await new Promise((resolve, reject) => {
+                res.on('finish', resolve);
+                res.on('error', reject);
+                readStream.pipe(res);
+            });
+        } else {
+            await streamZip(tempDir, res);
+        }
 
     } finally {
         // Always clean up temp files
@@ -278,6 +290,78 @@ function streamZip(sourceDir, res) {
         archive.directory(sourceDir, false);
         archive.finalize();
     });
+}
+
+/**
+ * Helper to download asset as base64 or text
+ */
+async function getAssetData(assetUrl) {
+    try {
+        const result = await fetchUrl(assetUrl);
+        const b64 = result.body.toString('base64');
+        return {
+            contentType: result.contentType || 'application/octet-stream',
+            base64: b64,
+            text: result.body.toString('utf-8')
+        };
+    } catch (e) {
+        console.warn(`Failed to inline asset ${assetUrl}: ${e.message}`);
+        return null;
+    }
+}
+
+/**
+ * MODE: Single File Inlined — download HTML and inline CSS, JS, and images as base64.
+ */
+async function downloadSingleFileInlined(targetUrl, tempDir) {
+    const result = await fetchUrl(targetUrl);
+    const $ = cheerio.load(result.body.toString('utf-8'));
+
+    // Process CSS
+    const cssLinks = $('link[rel="stylesheet"]').toArray();
+    for (const el of cssLinks) {
+        const href = $(el).attr('href');
+        if (!href) continue;
+        const absUrl = resolveAsset(href, targetUrl);
+        if (!absUrl) continue;
+        
+        const asset = await getAssetData(absUrl);
+        if (asset) {
+            const style = $('<style></style>').text(asset.text);
+            $(el).replaceWith(style);
+        }
+    }
+
+    // Process Images
+    const imgTags = $('img').toArray();
+    for (const el of imgTags) {
+        const src = $(el).attr('src');
+        if (!src || src.startsWith('data:')) continue;
+        const absUrl = resolveAsset(src, targetUrl);
+        if (!absUrl) continue;
+        
+        const asset = await getAssetData(absUrl);
+        if (asset) {
+            $(el).attr('src', `data:${asset.contentType};base64,${asset.base64}`);
+        }
+    }
+    
+    // Process JS
+    const scripts = $('script[src]').toArray();
+    for (const el of scripts) {
+        const src = $(el).attr('src');
+        if (!src || src.startsWith('data:')) continue;
+        const absUrl = resolveAsset(src, targetUrl);
+        if (!absUrl) continue;
+        
+        const asset = await getAssetData(absUrl);
+        if (asset) {
+            const newScript = $('<script></script>').text(asset.text);
+            $(el).replaceWith(newScript);
+        }
+    }
+
+    fs.writeFileSync(path.join(tempDir, 'index.html'), $.html());
 }
 
 module.exports = { processDownload };
